@@ -8,25 +8,25 @@ datasource db {
 }
 
 model cars {
-  id            Int       @id @default(autoincrement())
-  manufactur    String?   @db.VarChar
-  type          String?   @db.VarChar
-  licenseNumber String?   @db.VarChar(30)
-  seat          Int?
-  baggage       Int?
-  transmission  String?   @db.VarChar
-  year          String?   @db.VarChar
-  name          String?   @db.VarChar
-  description   String?
-  isDriver      Boolean?
-  isAvailable   Boolean?  @default(true)
-  img           String?
-  price         Int?
-  createdDt     DateTime? @default(now()) @db.Timestamp(6)
-  updatedDt     DateTime? @updatedAt
-  createdBy     String?   @db.VarChar
-  updatedBy     String?   @db.VarChar
-  order         order[]
+  id             Int       @id @default(autoincrement())
+  manufactur     String?   @db.VarChar
+  type           String?   @db.VarChar
+  license_number String?   @db.VarChar(30)
+  seat           Int?
+  baggage        Int?
+  transmission   String?   @db.VarChar
+  name           String?   @db.VarChar
+  description    String?
+  is_driver      Boolean?  @default(true)
+  is_available   Boolean?  @default(true)
+  img            String?
+  price          Int?
+  created_dt     DateTime? @db.Timestamp(6)
+  created_by     String?   @db.VarChar
+  updated_by     String?   @db.VarChar
+  updated_dt     DateTime? @db.Timestamp(6)
+  year           DateTime? @db.Date
+  order          order[]
 
   @@index([name], map: "car_name_index")
 }
@@ -34,18 +34,18 @@ model cars {
 model order {
   id         Int       @id @default(autoincrement())
   order_no   String    @unique @db.VarChar
-  user_id    Int
-  car_id     Int
+  user_id    Int?
+  car_id     Int?
   start_time DateTime? @db.Timestamp(6)
   end_time   DateTime? @db.Timestamp(6)
   total      Float?
   is_driver  Boolean?
   is_expired Boolean?
   status     String?   @db.VarChar
-  createdDt  DateTime? @default(now()) @db.Timestamp(6)
-  updatedDt  DateTime? @updatedAt
-  createdBy  String?   @db.VarChar
-  updatedBy  String?   @db.VarChar
+  created_dt DateTime  @default(now()) @db.Timestamp(6)
+  created_by String    @db.VarChar
+  updated_by String    @db.VarChar
+  updated_dt DateTime  @default(now()) @db.Timestamp(6)
   cars       cars?     @relation(fields: [car_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   users      users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
@@ -61,54 +61,72 @@ model users {
   phone_number   String?   @unique @db.VarChar
   driver_license String?
   birthdate      String?
-  roleId         Int
-  createdDt      DateTime? @default(now()) @db.Timestamp(6)
-  updatedDt      DateTime? @updatedAt
-  createdBy      String?   @db.VarChar
-  updatedBy      String?   @db.VarChar
+  created_dt     DateTime? @db.Timestamp(6)
+  created_by     String?   @db.VarChar
+  updated_by     String?   @db.VarChar
+  updated_dt     DateTime? @db.Timestamp(6)
+  role_id        Int
   order          order[]
-  role           roles  @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  roles          roles     @relation(fields: [role_id], references: [id], onDelete: Cascade)
 }
 
 model roles {
-  id             Int       @id @default(autoincrement())
-  role           String    @unique
-  createdDt      DateTime? @default(now()) @db.Timestamp(6)
-  updatedDt      DateTime? @updatedAt
-  createdBy      String?   @db.VarChar
-  updatedBy      String?   @db.VarChar
-  access         access[]
-  user           users[]
+  id         Int       @id @default(autoincrement())
+  role       String    @unique
+  created_dt DateTime? @default(now()) @db.Timestamp(6)
+  created_by String?   @db.VarChar
+  updated_by String?   @db.VarChar
+  updated_dt DateTime? @db.Timestamp(6)
+  access     access[]
+  users      users[]
 }
 
 model menus {
-  id             Int       @id @default(autoincrement())
-  name           String    @unique
-  title          String
-  icon           String?
-  path           String?
-  is_submenu     Boolean   @default(false)
-  parent_id      Int?
-  permissions    String[]
-  createdDt      DateTime? @default(now()) @db.Timestamp(6)
-  updatedDt      DateTime? @updatedAt
-  createdBy      String?   @db.VarChar
-  updatedBy      String?   @db.VarChar
-  submenu        menus?  @relation("submenu", fields: [parent_id], references: [id])
-  parent         menus[] @relation("submenu")
-  access         access[]
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  title       String
+  icon        String?
+  path        String?
+  is_submenu  Boolean   @default(false)
+  parent_id   Int?
+  created_dt  DateTime? @default(now()) @db.Timestamp(6)
+  updated_dt  DateTime? @db.Timestamp(6)
+  created_by  String?   @db.VarChar
+  updated_by  String?   @db.VarChar
+  permissions String[]
+  access      access[]
+  submenu     menus?    @relation("submenu", fields: [parent_id], references: [id])
+  parent      menus[]   @relation("submenu")
 }
 
-model access{
-  id             Int       @id @default(autoincrement())
-  role_id        Int
-  menu_id        Int
-  visible        Boolean   @default(true)
-  grant          Json
-  createdDt      DateTime? @default(now()) @db.Timestamp(6)
-  updatedDt      DateTime? @updatedAt
-  createdBy      String?   @db.VarChar
-  updatedBy      String?   @db.VarChar
-  role           roles     @relation(fields: [role_id], references: [id], onDelete: Cascade)
-  menu           menus     @relation(fields: [menu_id], references: [id], onDelete: Cascade)
+model access {
+  id         Int     @id @default(autoincrement())
+  role_id    Int
+  menu_id    Int
+  visible    Boolean @default(true)
+  grant      Json
+  created_by String  @db.VarChar
+  menu       menus   @relation(fields: [menu_id], references: [id])
+  role       roles   @relation(fields: [role_id], references: [id])
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model districts {
+  kode_district  Int?
+  kode_regencies Int?
+  name           String? @db.VarChar(50)
+
+  @@index([name], map: "idx_district_name")
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model load_machines {
+  machine     String? @db.VarChar(1000)
+  description String? @db.VarChar(1000)
+  value       Int?
+  time_log    String? @db.VarChar(1000)
+
+  @@index([time_log], map: "idx_load_machine")
+  @@ignore
 }

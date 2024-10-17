@@ -3,71 +3,71 @@ const prisma = new PrismaClient()
 
 // abstract class
 class BaseModel {
-  //encapsulation
-  constructor(model) {
-    this.name = model
-    this.model = prisma[model]; //prisma.users
-  }
+    //encapsulation
+    constructor(model) {
+        this.name = model
+        this.model = prisma[model]; //prisma.users
+    }
 
-  get = async ({ where = {}, q = {}, select = this.select }) => {
-    const { sortBy = "createdDt", sort = "desc", page = 1, limit = 10 } = q;
-    const query = {
-      select,
-      where,
-      orderBy: {
-        [sortBy]: sort,
-      },
-      skip: (page - 1) * limit,
-      take: limit,
+    get = async({ where = {}, q = {}, select = this.select }) => {
+        const { sortBy = "created_dt", sort = "desc", page = 1, limit = 10 } = q;
+        const query = {
+            select,
+            where,
+            orderBy: {
+                [sortBy]: sort,
+            },
+            skip: (page - 1) * limit,
+            take: limit,
+        };
+
+        const [resources, count] = await prisma.$transaction([
+            this.model.findMany(query),
+            this.model.count({ where })
+        ]);
+
+        return {
+            resources,
+            count,
+        };
     };
-    
-    const [resources, count] = await prisma.$transaction([
-      this.model.findMany(query),
-      this.model.count({where})
-    ]);
 
-    return {
-      resources,
-      count,
+    getById = async(id, select) => {
+        return this.model.findUnique({ where: { id: Number(id) }, select });
     };
-  };
 
-  getById = async (id, select) => {
-    return this.model.findUnique({ where: { id: Number(id) }, select });
-  };
+    getOne = async(query) => {
+        return this.model.findFirst(query);
+    };
 
-  getOne = async (query) => {
-    return this.model.findFirst(query);
-  };
+    set = (data) => {
+        return this.model.create({ data });
+    };
 
-  set = (data) => {
-    return this.model.create({ data });
-  };
+    setMany = (data) => {
+        return this.model.createMany({ data });
+    }
 
-  setMany = (data) => {
-    return this.model.createMany({ data });
-  }
+    update = (id, data) => {
+        return this.model.update({
+            where: { id: Number(id) },
+            data,
+        });
+    };
 
-  update = (id, data) => {
-    return this.model.update({
-      where: { id: Number(id) },
-      data,
-    });
-  };
+    delete = async(id) => {
+        return this.model.delete({
+            where: { id: Number(id) },
+        });
+    };
 
-  delete = async (id) => {
-    return this.model.delete({
-      where: { id: Number(id) },
-    });
-  };
+    count = async(where) => {
+        return this.model.count(where);
+    };
 
-  count = async (where) => {
-    return this.model.count(where);
-  };
-
-  transaction = async(query) => {
-    return prisma.$transaction(query)
-  }
+    transaction = async(query) => {
+        return prisma.$transaction(query)
+    }
 }
 
 module.exports = BaseModel;

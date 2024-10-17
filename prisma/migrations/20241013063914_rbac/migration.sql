@@ -2,10 +2,10 @@
 CREATE TABLE "roles" (
     "id" SERIAL NOT NULL,
     "role" TEXT NOT NULL,
-    "createdDt" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
-    "updatedDt" TIMESTAMP(3),
-    "createdBy" VARCHAR,
-    "updatedBy" VARCHAR,
+    "created_dt" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
+    "updated_dt" TIMESTAMP(3),
+    "created_by" VARCHAR,
+    "updated_by" VARCHAR,
 
     CONSTRAINT "roles_pkey" PRIMARY KEY ("id")
 );
@@ -19,10 +19,10 @@ CREATE TABLE "menu" (
     "is_submenu" BOOLEAN NOT NULL DEFAULT false,
     "method" TEXT,
     "menu_id" INTEGER,
-    "createdDt" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
-    "updatedDt" TIMESTAMP(3),
-    "createdBy" VARCHAR,
-    "updatedBy" VARCHAR,
+    "created_dt" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
+    "updated_dt" TIMESTAMP(3),
+    "created_by" VARCHAR,
+    "updated_by" VARCHAR,
 
     CONSTRAINT "menu_pkey" PRIMARY KEY ("id")
 );
@@ -34,10 +34,10 @@ CREATE TABLE "menuFeatures" (
     "name" TEXT NOT NULL,
     "route" TEXT,
     "method" TEXT,
-    "createdDt" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
-    "updatedDt" TIMESTAMP(3),
-    "createdBy" VARCHAR,
-    "updatedBy" VARCHAR,
+    "created_dt" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
+    "updated_dt" TIMESTAMP(3),
+    "created_by" VARCHAR,
+    "updated_by" VARCHAR,
 
     CONSTRAINT "menuFeatures_pkey" PRIMARY KEY ("id")
 );
@@ -48,10 +48,10 @@ CREATE TABLE "menuAccess" (
     "role_id" INTEGER NOT NULL,
     "menu_id" INTEGER NOT NULL,
     "visible" BOOLEAN NOT NULL,
-    "createdDt" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
-    "updatedDt" TIMESTAMP(3),
-    "createdBy" VARCHAR,
-    "updatedBy" VARCHAR,
+    "created_dt" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
+    "updated_dt" TIMESTAMP(3),
+    "created_by" VARCHAR,
+    "updated_by" VARCHAR,
 
     CONSTRAINT "menuAccess_pkey" PRIMARY KEY ("id")
 );
@@ -62,10 +62,10 @@ CREATE TABLE "featureAccess" (
     "menu_access_id" INTEGER NOT NULL,
     "features_id" INTEGER NOT NULL,
     "visible" BOOLEAN NOT NULL,
-    "createdDt" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
-    "updatedDt" TIMESTAMP(3),
-    "createdBy" VARCHAR,
-    "updatedBy" VARCHAR,
+    "created_dt" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
+    "updated_dt" TIMESTAMP(3),
+    "created_by" VARCHAR,
+    "updated_by" VARCHAR,
 
     CONSTRAINT "featureAccess_pkey" PRIMARY KEY ("id")
 );

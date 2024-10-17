@@ -10,14 +10,14 @@ CREATE TABLE "cars" (
     "year" DATE,
     "name" VARCHAR,
     "description" TEXT,
-    "isDriver" BOOLEAN,
-    "isAvailable" BOOLEAN DEFAULT true,
+    "is_driver" BOOLEAN,
+    "is_available" BOOLEAN DEFAULT true,
     "img" TEXT,
     "price" INTEGER,
-    "createdDt" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
-    "updatedDt" TIMESTAMP(3),
-    "createdBy" VARCHAR,
-    "updatedBy" VARCHAR,
+    "created_dt" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
+    "updated_dt" TIMESTAMP(3),
+    "created_by" VARCHAR,
+    "updated_by" VARCHAR,
 
     CONSTRAINT "cars_pkey" PRIMARY KEY ("id")
 );
@@ -34,10 +34,10 @@ CREATE TABLE "order" (
     "is_driver" BOOLEAN,
     "is_expired" BOOLEAN,
     "status" VARCHAR,
-    "createdDt" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
-    "updatedDt" TIMESTAMP(3),
-    "createdBy" VARCHAR,
-    "updatedBy" VARCHAR,
+    "created_dt" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
+    "updated_dt" TIMESTAMP(3),
+    "created_by" VARCHAR,
+    "updated_by" VARCHAR,
 
     CONSTRAINT "order_pkey" PRIMARY KEY ("id")
 );
@@ -55,10 +55,10 @@ CREATE TABLE "users" (
     "phone_number" VARCHAR NOT NULL,
     "driver_license" TEXT,
     "birthdate" DATE,
-    "createdDt" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
-    "updatedDt" TIMESTAMP(3),
-    "createdBy" VARCHAR,
-    "updatedBy" VARCHAR,
+    "created_dt" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
+    "updated_dt" TIMESTAMP(3),
+    "created_by" VARCHAR,
+    "updated_by" VARCHAR,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );

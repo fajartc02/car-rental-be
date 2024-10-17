@@ -7,7 +7,7 @@
   - You are about to drop the `menuAccess` table. If the table is not empty, all the data it contains will be lost.
   - You are about to drop the `menuFeatures` table. If the table is not empty, all the data it contains will be lost.
   - A unique constraint covering the columns `[role]` on the table `roles` will be added. If there are existing duplicate values, this will fail.
-  - Added the required column `roleId` to the `users` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `role_id` to the `users` table without a default value. This is not possible if the table is not empty.
 
 */
 -- DropForeignKey
@@ -30,7 +30,7 @@ ALTER TABLE "menuFeatures" DROP CONSTRAINT "menuFeatures_menu_id_fkey";
 
 -- AlterTable
 ALTER TABLE "users" DROP COLUMN "role",
-ADD COLUMN     "roleId" INTEGER NOT NULL;
+ADD COLUMN     "role_id" INTEGER NOT NULL;
 
 -- DropTable
 DROP TABLE "featureAccess";
@@ -54,10 +54,10 @@ CREATE TABLE "menus" (
     "is_submenu" BOOLEAN NOT NULL DEFAULT false,
     "parent_id" INTEGER,
     "permissions" TEXT[],
-    "createdDt" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
-    "updatedDt" TIMESTAMP(3),
-    "createdBy" VARCHAR,
-    "updatedBy" VARCHAR,
+    "created_dt" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
+    "updated_dt" TIMESTAMP(3),
+    "created_by" VARCHAR,
+    "updated_by" VARCHAR,
 
     CONSTRAINT "menus_pkey" PRIMARY KEY ("id")
 );
@@ -80,7 +80,7 @@ CREATE UNIQUE INDEX "menus_name_key" ON "menus"("name");
 CREATE UNIQUE INDEX "roles_role_key" ON "roles"("role");
 
 -- AddForeignKey
-ALTER TABLE "users" ADD CONSTRAINT "users_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES "roles"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "users" ADD CONSTRAINT "users_role_id_fkey" FOREIGN KEY ("role_id") REFERENCES "roles"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "menus" ADD CONSTRAINT "menus_parent_id_fkey" FOREIGN KEY ("parent_id") REFERENCES "menus"("id") ON DELETE SET NULL ON UPDATE CASCADE;
