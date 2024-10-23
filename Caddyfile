@@ -1,0 +1,7 @@
+http://binar-car-rental.duckdns.org {
+        redir https://binar-car-rental.duckdns.org{uri} permanent
+}
+
+binar-car-rental.duckdns.org {
+        reverse_proxy :3000
+}
